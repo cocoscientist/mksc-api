@@ -20,6 +20,7 @@ func main() {
 func loadDatabase() {
 	database.Connect()
 	database.Database.AutoMigrate(&models.User{})
+	database.Database.AutoMigrate(&models.Character{})
 }
 
 func loadEnv() {
@@ -35,6 +36,10 @@ func serveApplication() {
 	publicRoutes := router.Group("/auth")
 	publicRoutes.POST("/register", controllers.Register)
 
-	router.Run(":8000")
-	fmt.Println("Server running on port 8000")
+	mainRoutes := router.Group("/api")
+	mainRoutes.POST("/characters", controllers.AddCharacter)
+	mainRoutes.GET("/character", controllers.GetCharacterByName)
+
+	router.Run(":8080")
+	fmt.Println("Server running on port 8080")
 }
