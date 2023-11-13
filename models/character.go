@@ -30,3 +30,12 @@ func FindCharacterByName(name string) (Character, error) {
 	}
 	return chara, nil
 }
+
+func FindAllCharacters() []Character {
+	var characters []Character
+	result := database.Database.Find(&characters)
+	if result.Error != nil {
+		return nil
+	}
+	return characters
+}

@@ -70,5 +70,22 @@ func GetCharacterByName(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusAccepted, gin.H{"result": chara})
+	context.JSON(http.StatusAccepted, chara)
+}
+
+func GetAllCharacters(context *gin.Context) {
+	token := context.Request.Header["Key"][0]
+
+	user, erro := models.FindUserByApiKey(token)
+
+	if erro != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": erro.Error()})
+		return
+	}
+
+	println(user.Username)
+
+	charas := models.FindAllCharacters()
+
+	context.JSON(http.StatusAccepted, charas)
 }

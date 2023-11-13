@@ -39,6 +39,7 @@ func serveApplication() {
 	mainRoutes := router.Group("/api")
 	mainRoutes.POST("/characters", controllers.AddCharacter)
 	mainRoutes.GET("/character", controllers.GetCharacterByName)
+	mainRoutes.GET("/characters", controllers.GetAllCharacters)
 
 	router.Run(":8080")
 	fmt.Println("Server running on port 8080")
