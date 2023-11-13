@@ -1,18 +1,12 @@
 package controllers
 
 import (
+	"mksc_api/helper"
 	"mksc_api/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-func apiKeyGenerator(username string) (result string) {
-	for _, v := range username {
-		result = string(v) + result
-	}
-	return
-}
 
 func Register(context *gin.Context) {
 	var input models.RegisterInput
@@ -22,7 +16,7 @@ func Register(context *gin.Context) {
 		return
 	}
 
-	apiBase := apiKeyGenerator(input.Username)
+	apiBase := helper.ApiKeyGenerator(input.Username)
 
 	user := models.User{
 		Username: input.Username,

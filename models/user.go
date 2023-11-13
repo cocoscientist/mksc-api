@@ -30,7 +30,7 @@ func (user *User) BeforeSave(*gorm.DB) error {
 		return err
 	}
 
-	apiKeyHash, err := bcrypt.GenerateFromPassword([]byte(user.ApiKey), bcrypt.DefaultCost)
+	apiKeyHash, err := bcrypt.GenerateFromPassword([]byte(user.ApiKey), bcrypt.MinCost)
 	if err != nil {
 		return err
 	}
