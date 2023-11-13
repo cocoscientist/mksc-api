@@ -7,6 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func apiKeyGenerator(username string) (result string) {
+	for _, v := range username {
+		result = string(v) + result
+	}
+	return
+}
+
 func Register(context *gin.Context) {
 	var input models.RegisterInput
 
@@ -15,9 +22,12 @@ func Register(context *gin.Context) {
 		return
 	}
 
+	apiBase := apiKeyGenerator(input.Username)
+
 	user := models.User{
 		Username: input.Username,
 		Password: input.Password,
+		ApiKey:   apiBase,
 	}
 
 	savedUser, err := user.Save()
@@ -27,5 +37,5 @@ func Register(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"user": savedUser})
+	context.JSON(http.StatusCreated, gin.H{"user": savedUser, "apiKey": apiBase})
 }
