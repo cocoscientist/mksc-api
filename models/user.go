@@ -40,3 +40,24 @@ func (user *User) BeforeSave(*gorm.DB) error {
 	user.Username = html.EscapeString(strings.TrimSpace(user.Username))
 	return nil
 }
+
+func getBcryptedKey(apiKey string) (string, error) {
+	apiKeyH, err := bcrypt.GenerateFromPassword([]byte(apiKey), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(apiKeyH), nil
+}
+
+func FindUserByApiKey(apiKey string) (User, error) {
+	apiKeyHash, err := getBcryptedKey(apiKey)
+	if err != nil {
+		return User{}, err
+	}
+	var user User
+	erro := database.Database.Where("api_key=?", apiKeyHash).Find(&user).Error
+	if erro != nil {
+		return User{}, erro
+	}
+	return user, nil
+}
