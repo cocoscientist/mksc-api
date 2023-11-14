@@ -21,6 +21,8 @@ func loadDatabase() {
 	database.Connect()
 	database.Database.AutoMigrate(&models.User{})
 	database.Database.AutoMigrate(&models.Character{})
+	database.Database.AutoMigrate(&models.Cup{})
+	database.Database.AutoMigrate(&models.Track{})
 }
 
 func loadEnv() {
@@ -40,6 +42,11 @@ func serveApplication() {
 	mainRoutes.POST("/characters", controllers.AddCharacter)
 	mainRoutes.GET("/character", controllers.GetCharacterByName)
 	mainRoutes.GET("/characters", controllers.GetAllCharacters)
+	mainRoutes.POST("/cups", controllers.AddCup)
+	mainRoutes.GET("/cups", controllers.GetAllCups)
+	mainRoutes.POST("/tracks", controllers.AddTrack)
+	mainRoutes.GET("/tracks", controllers.GetAllTracks)
+	mainRoutes.GET("/tracks/:cupID", controllers.GetTrackByCupID)
 
 	router.Run(":8080")
 	fmt.Println("Server running on port 8080")

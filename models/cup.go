@@ -8,9 +8,9 @@ import (
 
 type Cup struct {
 	gorm.Model
-	Name   string `gorm:"size:255;not null;unique" json:"name"`
-	Image  string `gorm:"not null;unique" json:"image"`
-	Tracks []Track
+	Name   string  `gorm:"size:255;not null;unique" json:"name"`
+	Image  string  `gorm:"not null;unique" json:"image"`
+	Tracks []Track `json:"-"`
 }
 
 func (cup *Cup) SaveCup() (*Cup, error) {
