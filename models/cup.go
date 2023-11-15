@@ -30,6 +30,15 @@ func FindCupByName(name string) (Cup, error) {
 	return curCup, nil
 }
 
+func FindCupByID(id uint) (Cup, error) {
+	var curCup Cup
+	erro := database.Database.Where("ID=?", id).Find(&curCup).Error
+	if erro != nil {
+		return Cup{}, erro
+	}
+	return curCup, nil
+}
+
 func FindAllCups() []Cup {
 	var cups []Cup
 	result := database.Database.Find(&cups)

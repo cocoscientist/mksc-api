@@ -44,6 +44,7 @@ func serveApplication() {
 	mainRoutes.GET("/characters", controllers.GetAllCharacters)
 	mainRoutes.POST("/cups", controllers.AddCup)
 	mainRoutes.GET("/cups", controllers.GetAllCups)
+	mainRoutes.GET("/cup/:cupID", controllers.GetCupByID)
 	mainRoutes.POST("/tracks", controllers.AddTrack)
 	mainRoutes.GET("/tracks", controllers.GetAllTracks)
 	mainRoutes.GET("/tracks/:cupID", controllers.GetTrackByCupID)

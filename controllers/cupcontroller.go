@@ -3,6 +3,7 @@ package controllers
 import (
 	"mksc_api/models"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -61,4 +62,33 @@ func GetAllCups(context *gin.Context) {
 	cups := models.FindAllCups()
 
 	context.JSON(http.StatusAccepted, cups)
+}
+
+func GetCupByID(context *gin.Context) {
+	token := context.Request.Header["Key"][0]
+
+	user, erro := models.FindUserByApiKey(token)
+
+	if erro != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": erro.Error()})
+		return
+	}
+
+	println(user.Username)
+
+	cid, err := strconv.ParseUint(context.Param("cupID"), 10, 32)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	cup, err := models.FindCupByID(uint(cid))
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusAccepted, cup)
 }
